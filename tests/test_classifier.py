@@ -1,9 +1,11 @@
 import json
 from unittest.mock import MagicMock, patch
 
+import httpx
+import ollama
 import pytest
-from pydantic import ValidationError
 
+from app.llm.errors import LLMInvalidOutputError, LLMTimeoutError, LLMUnavailableError
 from app.llm.ollama_client import OllamaClient
 from app.schemas import Category, FeedbackClassification, Intent, Priority, Sentiment
 from app.services.classifier import classify_feedback
@@ -41,10 +43,31 @@ def test_classify_feedback_uses_default_client_when_none_given():
     llm.chat_json.assert_called_once()
 
 
-def test_classify_feedback_rejects_invalid_llm_output():
-    llm = fake_llm(json.dumps({**VALID, "priority": "urgent"}))
-    with pytest.raises(ValidationError):
+def test_classify_feedback_retries_once_after_invalid_output():
+    llm = MagicMock()
+    llm.chat_json.side_effect = ["not json", json.dumps(VALID)]
+    result = classify_feedback("Something", llm=llm)
+    assert result.priority == Priority.HIGH
+    assert llm.chat_json.call_count == 2
+
+
+@pytest.mark.parametrize(
+    "bad_output",
+    ["not json", json.dumps({**VALID, "priority": "urgent"}), json.dumps({**VALID, "extra": "x"}), "{}"],
+)
+def test_classify_feedback_raises_after_two_invalid_outputs(bad_output):
+    llm = fake_llm(bad_output)
+    with pytest.raises(LLMInvalidOutputError):
         classify_feedback("Something", llm=llm)
+    assert llm.chat_json.call_count == 2
+
+
+def test_classify_feedback_does_not_retry_transport_errors():
+    llm = MagicMock()
+    llm.chat_json.side_effect = LLMUnavailableError("down")
+    with pytest.raises(LLMUnavailableError):
+        classify_feedback("Something", llm=llm)
+    llm.chat_json.assert_called_once()
 
 
 def test_ollama_client_calls_chat_with_structured_output():
@@ -61,3 +84,20 @@ def test_ollama_client_calls_chat_with_structured_output():
     assert kwargs["format"] == schema
     assert kwargs["think"] is False
     assert kwargs["options"] == {"temperature": 0}
+
+
+@pytest.mark.parametrize(
+    ("raised", "expected"),
+    [
+        (ConnectionError("Failed to connect to Ollama"), LLMUnavailableError),
+        (httpx.ConnectError("refused"), LLMUnavailableError),
+        (ollama.ResponseError("model 'qwen3:4b' not found", 404), LLMUnavailableError),
+        (httpx.ReadTimeout("timed out"), LLMTimeoutError),
+    ],
+)
+def test_ollama_client_maps_provider_errors(raised, expected):
+    with patch("app.llm.ollama_client.ollama.Client") as client_cls:
+        client_cls.return_value.chat.side_effect = raised
+        client = OllamaClient(host="http://ollama:11434", model="qwen3:4b", timeout=5)
+        with pytest.raises(expected):
+            client.chat_json([{"role": "user", "content": "hi"}], {})
