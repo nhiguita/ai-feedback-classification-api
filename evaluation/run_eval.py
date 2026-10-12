@@ -2,10 +2,13 @@
 
 Usage:
     .venv/bin/python -m evaluation.run_eval --dataset dev
+    .venv/bin/python -m evaluation.run_eval --dataset holdout
 
 Datasets:
     dev  All comments used while developing prompts v1/v2 (including the former "test" split,
          which was used to compare v1 and v2 and is therefore no longer held out).
+    holdout  Labeled following docs/ANNOTATION_GUIDELINES.md before the facts + rules approach was
+             written. Report-only: never use its results to adjust prompts or rules.
 
 Requires Ollama running with the configured model (see .env.example).
 Writes evaluation/results/<prompt version>-<dataset>.json and docs/evaluation/<prompt version>-<dataset>.md.
@@ -27,7 +30,7 @@ from evaluation.metrics import FIELDS, accuracy, confusion_matrix, exact_match, 
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "evaluation" / "data"
-DATASETS = {"dev": DATA_DIR / "feedback_dev.jsonl"}
+DATASETS = {"dev": DATA_DIR / "feedback_dev.jsonl", "holdout": DATA_DIR / "feedback_holdout.jsonl"}
 RESULTS_DIR = ROOT / "evaluation" / "results"
 REPORTS_DIR = ROOT / "docs" / "evaluation"
 
