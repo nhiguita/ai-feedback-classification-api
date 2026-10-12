@@ -24,11 +24,6 @@ def test_analyze_returns_classifier_result():
     mock.assert_called_once_with("The application crashes when I upload reports.")
 
 
-def test_analyze_returns_501_while_classifier_is_stub():
-    response = client.post(URL, json={"text": "Nice app"})
-    assert response.status_code == 501
-
-
 def test_analyze_rejects_missing_text():
     assert client.post(URL, json={}).status_code == 422
 

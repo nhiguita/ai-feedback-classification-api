@@ -1,10 +1,10 @@
+from app.llm.base import LLMClient
+from app.llm.factory import get_llm_client
+from app.prompts import build_messages
 from app.schemas import FeedbackClassification
 
 
-class ClassifierNotImplementedError(Exception):
-    """Raised until the LLM-backed classifier is wired in."""
-
-
-def classify_feedback(text: str) -> FeedbackClassification:
-    # Placeholder: the Ollama/Qwen3 integration is added in a later step.
-    raise ClassifierNotImplementedError("Feedback classifier is not implemented yet.")
+def classify_feedback(text: str, llm: LLMClient | None = None) -> FeedbackClassification:
+    llm = llm or get_llm_client()
+    raw = llm.chat_json(build_messages(text), FeedbackClassification.model_json_schema())
+    return FeedbackClassification.model_validate_json(raw)
