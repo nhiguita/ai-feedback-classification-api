@@ -5,7 +5,7 @@ import pytest
 from app.llm.errors import LLMTimeoutError
 from app.schemas import Category, FeedbackClassification, Intent, Priority, Sentiment
 from evaluation.metrics import accuracy, confusion_matrix, exact_match, macro_f1, per_label_scores
-from evaluation.run_eval import DATASET, LABELS, compute_metrics, load_dataset, render_report, run_predictions
+from evaluation.run_eval import DATASETS, LABELS, compute_metrics, load_dataset, render_report, run_predictions
 
 GOLD = ["a", "a", "b", "c"]
 PRED = ["a", "b", "b", "b"]
@@ -46,31 +46,26 @@ def test_exact_match():
     assert exact_match(gold, pred) == 0.5
 
 
-def test_dataset_is_valid_and_covers_every_label():
-    rows = load_dataset(DATASET)
+@pytest.mark.parametrize("name", DATASETS)
+def test_dataset_is_valid_and_covers_every_label(name):
+    rows = load_dataset(name)
     assert len({r["id"] for r in rows}) == len(rows)
     for row in rows:
-        FeedbackClassification.model_validate({k: v for k, v in row.items() if k not in ("id", "split", "text")})
+        FeedbackClassification.model_validate({k: v for k, v in row.items() if k not in ("id", "text")})
     for field, labels in LABELS.items():
-        assert {r[field] for r in rows} == set(labels), f"{field} does not cover every label"
+        assert {r[field] for r in rows} == set(labels), f"{name}: {field} does not cover every label"
 
 
-def test_dataset_splits_are_disjoint_and_complete():
-    dev, test, all_rows = (load_dataset(DATASET, s) for s in ("dev", "test", "all"))
-    assert dev and test
-    assert {r["id"] for r in dev}.isdisjoint({r["id"] for r in test})
-    assert len(dev) + len(test) == len(all_rows)
-
-
-def test_dataset_does_not_reuse_few_shot_examples():
+@pytest.mark.parametrize("name", DATASETS)
+def test_dataset_does_not_reuse_few_shot_examples(name):
     from app.prompts import FEW_SHOT_EXAMPLES
 
     few_shot_texts = {text for text, _ in FEW_SHOT_EXAMPLES}
-    assert not few_shot_texts & {r["text"] for r in load_dataset(DATASET)}
+    assert not few_shot_texts & {r["text"] for r in load_dataset(name)}
 
 
 def test_run_predictions_and_report_with_mocked_classifier():
-    rows = load_dataset(DATASET)[:2]
+    rows = load_dataset("dev")[:2]
     correct = FeedbackClassification(**{k: rows[0][k] for k in ("sentiment", "intent", "category", "priority")})
     with patch("evaluation.run_eval.classify_feedback", side_effect=[correct, LLMTimeoutError("slow")]):
         predictions = run_predictions(rows)

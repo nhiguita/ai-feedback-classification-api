@@ -29,14 +29,14 @@ curl -X POST http://localhost:8000/api/v1/feedback/analyze \
 ```
 
 ## Evaluation
-63 fictitious, hand-labeled comments in `evaluation/data/feedback_labeled.jsonl`, split into
-`dev` (30, used to tune the prompt) and `test` (33, held out; includes prompt-injection cases).
+63 fictitious, hand-labeled comments in `evaluation/data/feedback_dev.jsonl` (development set).
 Run against the real model (requires Ollama):
 ```bash
-.venv/bin/python -m evaluation.run_eval --split test
+.venv/bin/python -m evaluation.run_eval --dataset dev
 ```
 
-Results on the **test** split with `qwen3:4b` (GPU, median latency ~1.4s):
+Historical results on the former **test** split (33 of those comments; now part of the
+development set because it was used to compare v1 and v2) with `qwen3:4b` (GPU, median latency ~1.4s):
 
 | Field | Prompt v1 | Prompt v2 |
 | --- | --- | --- |

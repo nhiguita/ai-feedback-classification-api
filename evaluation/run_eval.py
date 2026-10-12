@@ -1,12 +1,14 @@
 """Evaluate the classifier against the labeled dataset using the real LLM.
 
 Usage:
-    .venv/bin/python -m evaluation.run_eval --split dev
-    .venv/bin/python -m evaluation.run_eval --split test
+    .venv/bin/python -m evaluation.run_eval --dataset dev
 
-Tune the prompt on the dev split only; run the test split once per prompt version.
+Datasets:
+    dev  All comments used while developing prompts v1/v2 (including the former "test" split,
+         which was used to compare v1 and v2 and is therefore no longer held out).
+
 Requires Ollama running with the configured model (see .env.example).
-Writes evaluation/results/<prompt version>-<split>.json and docs/evaluation/<prompt version>-<split>.md.
+Writes evaluation/results/<prompt version>-<dataset>.json and docs/evaluation/<prompt version>-<dataset>.md.
 """
 
 import argparse
@@ -24,10 +26,10 @@ from app.services.classifier import classify_feedback
 from evaluation.metrics import FIELDS, accuracy, confusion_matrix, exact_match, macro_f1, per_label_scores
 
 ROOT = Path(__file__).resolve().parent.parent
-DATASET = ROOT / "evaluation" / "data" / "feedback_labeled.jsonl"
+DATA_DIR = ROOT / "evaluation" / "data"
+DATASETS = {"dev": DATA_DIR / "feedback_dev.jsonl"}
 RESULTS_DIR = ROOT / "evaluation" / "results"
 REPORTS_DIR = ROOT / "docs" / "evaluation"
-SPLITS = ("dev", "test", "all")
 
 LABELS = {
     "sentiment": [s.value for s in Sentiment],
@@ -37,10 +39,9 @@ LABELS = {
 }
 
 
-def load_dataset(path: Path, split: str = "all") -> list[dict[str, str]]:
-    with path.open(encoding="utf-8") as f:
-        rows = [json.loads(line) for line in f if line.strip()]
-    return rows if split == "all" else [r for r in rows if r["split"] == split]
+def load_dataset(name: str) -> list[dict[str, str]]:
+    with DATASETS[name].open(encoding="utf-8") as f:
+        return [json.loads(line) for line in f if line.strip()]
 
 
 def run_predictions(rows: list[dict[str, str]]) -> list[dict]:
@@ -87,17 +88,17 @@ def compute_metrics(rows: list[dict[str, str]], predictions: list[dict]) -> dict
     }
 
 
-def render_report(metrics: dict, rows: list[dict[str, str]], predictions: list[dict], model: str, split: str) -> str:
+def render_report(metrics: dict, rows: list[dict[str, str]], predictions: list[dict], model: str, dataset: str) -> str:
     lines = [
-        f"# Evaluation — prompt {PROMPT_VERSION}, {split} split",
+        f"# Evaluation — prompt {PROMPT_VERSION}, {dataset} dataset",
         "",
         f"- Date: {date.today().isoformat()}",
         f"- Model: `{model}` via Ollama (temperature 0, thinking disabled)",
-        f"- Dataset: `evaluation/data/feedback_labeled.jsonl`, split `{split}` ({metrics['n']} fictitious, hand-labeled comments)",
+        f"- Dataset: `{DATASETS[dataset].relative_to(ROOT)}` ({metrics['n']} fictitious, hand-labeled comments)",
         f"- LLM errors: {metrics['errors']}",
         f"- Latency: median {metrics['latency']['median_seconds']:.2f}s, max {metrics['latency']['max_seconds']:.2f}s",
         "",
-        f"Reproduce with `.venv/bin/python -m evaluation.run_eval --split {split}`.",
+        f"Reproduce with `.venv/bin/python -m evaluation.run_eval --dataset {dataset}`.",
         "",
         "## Summary",
         "",
@@ -136,22 +137,22 @@ def render_report(metrics: dict, rows: list[dict[str, str]], predictions: list[d
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--split", choices=SPLITS, required=True, help="Dataset split to evaluate.")
+    parser.add_argument("--dataset", choices=DATASETS, required=True, help="Dataset to evaluate.")
     parser.add_argument("--limit", type=int, help="Evaluate only the first N items.")
     args = parser.parse_args()
 
-    rows = load_dataset(DATASET, args.split)[: args.limit]
+    rows = load_dataset(args.dataset)[: args.limit]
     predictions = run_predictions(rows)
     metrics = compute_metrics(rows, predictions)
     model = get_settings().ollama_model
 
-    name = f"{PROMPT_VERSION}-{args.split}"
+    name = f"{PROMPT_VERSION}-{args.dataset}"
     results_path, report_path = RESULTS_DIR / f"{name}.json", REPORTS_DIR / f"{name}.md"
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    payload = {"model": model, "prompt_version": PROMPT_VERSION, "split": args.split, "metrics": metrics}
+    payload = {"model": model, "prompt_version": PROMPT_VERSION, "dataset": args.dataset, "metrics": metrics}
     results_path.write_text(json.dumps({**payload, "predictions": predictions}, indent=2), encoding="utf-8")
-    report_path.write_text(render_report(metrics, rows, predictions, model, args.split), encoding="utf-8")
+    report_path.write_text(render_report(metrics, rows, predictions, model, args.dataset), encoding="utf-8")
 
     print(f"\nExact match: {metrics['exact_match']:.1%}")
     for field in FIELDS:
