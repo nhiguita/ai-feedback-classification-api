@@ -50,9 +50,16 @@ def test_dataset_is_valid_and_covers_every_label():
     rows = load_dataset(DATASET)
     assert len({r["id"] for r in rows}) == len(rows)
     for row in rows:
-        FeedbackClassification.model_validate({k: v for k, v in row.items() if k not in ("id", "text")})
+        FeedbackClassification.model_validate({k: v for k, v in row.items() if k not in ("id", "split", "text")})
     for field, labels in LABELS.items():
         assert {r[field] for r in rows} == set(labels), f"{field} does not cover every label"
+
+
+def test_dataset_splits_are_disjoint_and_complete():
+    dev, test, all_rows = (load_dataset(DATASET, s) for s in ("dev", "test", "all"))
+    assert dev and test
+    assert {r["id"] for r in dev}.isdisjoint({r["id"] for r in test})
+    assert len(dev) + len(test) == len(all_rows)
 
 
 def test_dataset_does_not_reuse_few_shot_examples():
@@ -75,7 +82,7 @@ def test_run_predictions_and_report_with_mocked_classifier():
     assert metrics["errors"] == 1
     assert metrics["exact_match"] == 0.5
 
-    report = render_report(metrics, rows, predictions, "qwen3:4b")
+    report = render_report(metrics, rows, predictions, "qwen3:4b", "dev")
     assert "| sentiment | 50.0% |" in report
     assert rows[1]["id"] in report  # Failed item is listed under misclassified.
 

@@ -1,120 +1,122 @@
 {
   "model": "qwen3:4b",
+  "prompt_version": "v1",
+  "split": "dev",
   "metrics": {
-    "n": 60,
+    "n": 30,
     "errors": 0,
-    "exact_match": 0.4166666666666667,
+    "exact_match": 0.4,
     "fields": {
       "sentiment": {
-        "accuracy": 0.8833333333333333,
-        "macro_f1": 0.8548528579513299,
+        "accuracy": 0.9,
+        "macro_f1": 0.8366174055829227,
         "per_label": [
           {
             "label": "positive",
-            "precision": 0.7272727272727273,
-            "recall": 0.8888888888888888,
-            "f1": 0.7999999999999999,
-            "support": 9
+            "precision": 0.8571428571428571,
+            "recall": 0.8571428571428571,
+            "f1": 0.8571428571428571,
+            "support": 7
           },
           {
             "label": "neutral",
             "precision": 1.0,
-            "recall": 0.7222222222222222,
-            "f1": 0.8387096774193548,
-            "support": 18
+            "recall": 0.75,
+            "f1": 0.8571428571428571,
+            "support": 8
           },
           {
             "label": "negative",
-            "precision": 0.9,
+            "precision": 0.9333333333333333,
             "recall": 1.0,
-            "f1": 0.9473684210526316,
-            "support": 27
+            "f1": 0.9655172413793104,
+            "support": 14
           },
           {
             "label": "mixed",
-            "precision": 0.8333333333333334,
-            "recall": 0.8333333333333334,
-            "f1": 0.8333333333333334,
-            "support": 6
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1": 0.6666666666666666,
+            "support": 1
           }
         ],
         "confusion": {
           "positive": {
-            "positive": 8,
+            "positive": 6,
             "neutral": 0,
             "negative": 0,
             "mixed": 1
           },
           "neutral": {
-            "positive": 2,
-            "neutral": 13,
-            "negative": 3,
+            "positive": 1,
+            "neutral": 6,
+            "negative": 1,
             "mixed": 0
           },
           "negative": {
             "positive": 0,
             "neutral": 0,
-            "negative": 27,
+            "negative": 14,
             "mixed": 0
           },
           "mixed": {
-            "positive": 1,
+            "positive": 0,
             "neutral": 0,
             "negative": 0,
-            "mixed": 5
+            "mixed": 1
           }
         }
       },
       "intent": {
         "accuracy": 0.9,
-        "macro_f1": 0.8306878306878307,
+        "macro_f1": 0.8564814814814815,
         "per_label": [
           {
             "label": "report_issue",
-            "precision": 0.8666666666666667,
+            "precision": 0.8461538461538461,
             "recall": 1.0,
-            "f1": 0.9285714285714286,
-            "support": 26
+            "f1": 0.9166666666666666,
+            "support": 11
           },
           {
             "label": "request_feature",
             "precision": 1.0,
             "recall": 1.0,
             "f1": 1.0,
-            "support": 7
+            "support": 3
           },
           {
             "label": "ask_question",
             "precision": 0.8,
             "recall": 1.0,
             "f1": 0.888888888888889,
-            "support": 8
+            "support": 4
           },
           {
             "label": "give_praise",
             "precision": 1.0,
             "recall": 1.0,
             "f1": 1.0,
-            "support": 8
+            "support": 6
           },
           {
             "label": "complain",
             "precision": 1.0,
             "recall": 0.5,
             "f1": 0.6666666666666666,
-            "support": 8
+            "support": 4
           },
           {
             "label": "other",
             "precision": 1.0,
-            "recall": 0.3333333333333333,
-            "f1": 0.5,
-            "support": 3
+            "recall": 0.5,
+            "f1": 0.6666666666666666,
+            "support": 2
           }
         ],
         "confusion": {
           "report_issue": {
-            "report_issue": 26,
+            "report_issue": 11,
             "request_feature": 0,
             "ask_question": 0,
             "give_praise": 0,
@@ -123,7 +125,7 @@
           },
           "request_feature": {
             "report_issue": 0,
-            "request_feature": 7,
+            "request_feature": 3,
             "ask_question": 0,
             "give_praise": 0,
             "complain": 0,
@@ -132,7 +134,7 @@
           "ask_question": {
             "report_issue": 0,
             "request_feature": 0,
-            "ask_question": 8,
+            "ask_question": 4,
             "give_praise": 0,
             "complain": 0,
             "other": 0
@@ -141,22 +143,22 @@
             "report_issue": 0,
             "request_feature": 0,
             "ask_question": 0,
-            "give_praise": 8,
+            "give_praise": 6,
             "complain": 0,
             "other": 0
           },
           "complain": {
-            "report_issue": 4,
+            "report_issue": 2,
             "request_feature": 0,
             "ask_question": 0,
             "give_praise": 0,
-            "complain": 4,
+            "complain": 2,
             "other": 0
           },
           "other": {
             "report_issue": 0,
             "request_feature": 0,
-            "ask_question": 2,
+            "ask_question": 1,
             "give_praise": 0,
             "complain": 0,
             "other": 1
@@ -164,72 +166,72 @@
         }
       },
       "category": {
-        "accuracy": 0.7666666666666667,
-        "macro_f1": 0.7770678527821385,
+        "accuracy": 0.8,
+        "macro_f1": 0.8151927437641724,
         "per_label": [
           {
             "label": "technical_issue",
-            "precision": 0.7272727272727273,
-            "recall": 0.8,
-            "f1": 0.761904761904762,
-            "support": 10
-          },
-          {
-            "label": "performance",
             "precision": 1.0,
             "recall": 0.8,
             "f1": 0.888888888888889,
             "support": 5
           },
           {
+            "label": "performance",
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 2
+          },
+          {
             "label": "usability",
-            "precision": 0.6923076923076923,
-            "recall": 0.75,
-            "f1": 0.7199999999999999,
-            "support": 12
+            "precision": 0.625,
+            "recall": 0.8333333333333334,
+            "f1": 0.7142857142857143,
+            "support": 6
           },
           {
             "label": "feature_request",
             "precision": 1.0,
             "recall": 1.0,
             "f1": 1.0,
-            "support": 7
+            "support": 3
           },
           {
             "label": "account_access",
             "precision": 1.0,
-            "recall": 0.75,
-            "f1": 0.8571428571428571,
-            "support": 8
+            "recall": 0.8,
+            "f1": 0.888888888888889,
+            "support": 5
           },
           {
             "label": "data_quality",
-            "precision": 0.42857142857142855,
+            "precision": 0.5,
             "recall": 0.5,
-            "f1": 0.4615384615384615,
-            "support": 6
+            "f1": 0.5,
+            "support": 2
           },
           {
             "label": "general",
-            "precision": 0.75,
-            "recall": 0.75,
-            "f1": 0.75,
-            "support": 12
+            "precision": 0.7142857142857143,
+            "recall": 0.7142857142857143,
+            "f1": 0.7142857142857143,
+            "support": 7
           }
         ],
         "confusion": {
           "technical_issue": {
-            "technical_issue": 8,
+            "technical_issue": 4,
             "performance": 0,
             "usability": 0,
             "feature_request": 0,
             "account_access": 0,
-            "data_quality": 2,
+            "data_quality": 1,
             "general": 0
           },
           "performance": {
-            "technical_issue": 1,
-            "performance": 4,
+            "technical_issue": 0,
+            "performance": 2,
             "usability": 0,
             "feature_request": 0,
             "account_access": 0,
@@ -239,17 +241,17 @@
           "usability": {
             "technical_issue": 0,
             "performance": 0,
-            "usability": 9,
+            "usability": 5,
             "feature_request": 0,
             "account_access": 0,
-            "data_quality": 1,
-            "general": 2
+            "data_quality": 0,
+            "general": 1
           },
           "feature_request": {
             "technical_issue": 0,
             "performance": 0,
             "usability": 0,
-            "feature_request": 7,
+            "feature_request": 3,
             "account_access": 0,
             "data_quality": 0,
             "general": 0
@@ -259,120 +261,98 @@
             "performance": 0,
             "usability": 1,
             "feature_request": 0,
-            "account_access": 6,
-            "data_quality": 1,
+            "account_access": 4,
+            "data_quality": 0,
             "general": 0
           },
           "data_quality": {
-            "technical_issue": 2,
+            "technical_issue": 0,
             "performance": 0,
             "usability": 0,
             "feature_request": 0,
             "account_access": 0,
-            "data_quality": 3,
+            "data_quality": 1,
             "general": 1
           },
           "general": {
             "technical_issue": 0,
             "performance": 0,
-            "usability": 3,
+            "usability": 2,
             "feature_request": 0,
             "account_access": 0,
             "data_quality": 0,
-            "general": 9
+            "general": 5
           }
         }
       },
       "priority": {
-        "accuracy": 0.6833333333333333,
-        "macro_f1": 0.6899902075989033,
+        "accuracy": 0.6666666666666666,
+        "macro_f1": 0.627051282051282,
         "per_label": [
           {
             "label": "low",
             "precision": 1.0,
-            "recall": 0.7037037037037037,
-            "f1": 0.8260869565217391,
-            "support": 27
+            "recall": 0.7857142857142857,
+            "f1": 0.88,
+            "support": 14
           },
           {
             "label": "medium",
-            "precision": 0.5882352941176471,
-            "recall": 0.5,
-            "f1": 0.5405405405405405,
-            "support": 20
+            "precision": 0.6666666666666666,
+            "recall": 0.4,
+            "f1": 0.5,
+            "support": 10
           },
           {
             "label": "high",
-            "precision": 0.3888888888888889,
+            "precision": 0.3,
             "recall": 1.0,
-            "f1": 0.56,
-            "support": 7
+            "f1": 0.4615384615384615,
+            "support": 3
           },
           {
             "label": "critical",
-            "precision": 0.8333333333333334,
-            "recall": 0.8333333333333334,
-            "f1": 0.8333333333333334,
-            "support": 6
+            "precision": 0.6666666666666666,
+            "recall": 0.6666666666666666,
+            "f1": 0.6666666666666666,
+            "support": 3
           }
         ],
         "confusion": {
           "low": {
-            "low": 19,
-            "medium": 7,
+            "low": 11,
+            "medium": 2,
             "high": 0,
             "critical": 1
           },
           "medium": {
             "low": 0,
-            "medium": 10,
-            "high": 10,
+            "medium": 4,
+            "high": 6,
             "critical": 0
           },
           "high": {
             "low": 0,
             "medium": 0,
-            "high": 7,
+            "high": 3,
             "critical": 0
           },
           "critical": {
             "low": 0,
             "medium": 0,
             "high": 1,
-            "critical": 5
+            "critical": 2
           }
         }
       }
     },
     "latency": {
       "median_seconds": 1.24,
-      "max_seconds": 1.47,
-      "total_seconds": 74.7
+      "max_seconds": 9.57,
+      "total_seconds": 45.6
     }
   },
   "predictions": [
-    {
-      "id": "fb-001",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "technical_issue",
-        "priority": "high"
-      },
-      "error": null,
-      "seconds": 1.47
-    },
-    {
-      "id": "fb-002",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "technical_issue",
-        "priority": "critical"
-      },
-      "error": null,
-      "seconds": 1.23
-    },
     {
       "id": "fb-003",
       "prediction": {
@@ -382,18 +362,7 @@
         "priority": "high"
       },
       "error": null,
-      "seconds": 1.22
-    },
-    {
-      "id": "fb-004",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "technical_issue",
-        "priority": "high"
-      },
-      "error": null,
-      "seconds": 1.22
+      "seconds": 9.57
     },
     {
       "id": "fb-005",
@@ -405,28 +374,6 @@
       },
       "error": null,
       "seconds": 1.23
-    },
-    {
-      "id": "fb-006",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "data_quality",
-        "priority": "low"
-      },
-      "error": null,
-      "seconds": 1.21
-    },
-    {
-      "id": "fb-007",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "technical_issue",
-        "priority": "high"
-      },
-      "error": null,
-      "seconds": 1.24
     },
     {
       "id": "fb-008",
@@ -448,18 +395,7 @@
         "priority": "high"
       },
       "error": null,
-      "seconds": 1.2
-    },
-    {
-      "id": "fb-010",
-      "prediction": {
-        "sentiment": "neutral",
-        "intent": "report_issue",
-        "category": "performance",
-        "priority": "medium"
-      },
-      "error": null,
-      "seconds": 1.19
+      "seconds": 1.21
     },
     {
       "id": "fb-011",
@@ -473,39 +409,6 @@
       "seconds": 1.22
     },
     {
-      "id": "fb-012",
-      "prediction": {
-        "sentiment": "positive",
-        "intent": "give_praise",
-        "category": "performance",
-        "priority": "low"
-      },
-      "error": null,
-      "seconds": 1.29
-    },
-    {
-      "id": "fb-013",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "usability",
-        "priority": "medium"
-      },
-      "error": null,
-      "seconds": 1.22
-    },
-    {
-      "id": "fb-014",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "usability",
-        "priority": "medium"
-      },
-      "error": null,
-      "seconds": 1.25
-    },
-    {
       "id": "fb-015",
       "prediction": {
         "sentiment": "negative",
@@ -514,7 +417,7 @@
         "priority": "medium"
       },
       "error": null,
-      "seconds": 1.22
+      "seconds": 1.24
     },
     {
       "id": "fb-016",
@@ -525,7 +428,7 @@
         "priority": "low"
       },
       "error": null,
-      "seconds": 1.27
+      "seconds": 1.29
     },
     {
       "id": "fb-017",
@@ -536,7 +439,7 @@
         "priority": "low"
       },
       "error": null,
-      "seconds": 1.18
+      "seconds": 1.2
     },
     {
       "id": "fb-018",
@@ -547,18 +450,7 @@
         "priority": "medium"
       },
       "error": null,
-      "seconds": 1.23
-    },
-    {
-      "id": "fb-019",
-      "prediction": {
-        "sentiment": "positive",
-        "intent": "request_feature",
-        "category": "feature_request",
-        "priority": "medium"
-      },
-      "error": null,
-      "seconds": 1.23
+      "seconds": 1.21
     },
     {
       "id": "fb-020",
@@ -569,18 +461,7 @@
         "priority": "high"
       },
       "error": null,
-      "seconds": 1.31
-    },
-    {
-      "id": "fb-021",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "request_feature",
-        "category": "feature_request",
-        "priority": "high"
-      },
-      "error": null,
-      "seconds": 1.23
+      "seconds": 1.32
     },
     {
       "id": "fb-022",
@@ -591,18 +472,7 @@
         "priority": "medium"
       },
       "error": null,
-      "seconds": 1.29
-    },
-    {
-      "id": "fb-023",
-      "prediction": {
-        "sentiment": "neutral",
-        "intent": "ask_question",
-        "category": "usability",
-        "priority": "low"
-      },
-      "error": null,
-      "seconds": 1.22
+      "seconds": 1.32
     },
     {
       "id": "fb-024",
@@ -613,18 +483,7 @@
         "priority": "high"
       },
       "error": null,
-      "seconds": 1.21
-    },
-    {
-      "id": "fb-025",
-      "prediction": {
-        "sentiment": "neutral",
-        "intent": "ask_question",
-        "category": "account_access",
-        "priority": "low"
-      },
-      "error": null,
-      "seconds": 1.23
+      "seconds": 1.22
     },
     {
       "id": "fb-026",
@@ -635,7 +494,7 @@
         "priority": "high"
       },
       "error": null,
-      "seconds": 1.24
+      "seconds": 1.26
     },
     {
       "id": "fb-027",
@@ -657,7 +516,7 @@
         "priority": "low"
       },
       "error": null,
-      "seconds": 1.23
+      "seconds": 1.24
     },
     {
       "id": "fb-029",
@@ -671,17 +530,6 @@
       "seconds": 1.26
     },
     {
-      "id": "fb-030",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "data_quality",
-        "priority": "high"
-      },
-      "error": null,
-      "seconds": 1.24
-    },
-    {
       "id": "fb-031",
       "prediction": {
         "sentiment": "negative",
@@ -693,17 +541,6 @@
       "seconds": 1.23
     },
     {
-      "id": "fb-032",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "technical_issue",
-        "priority": "high"
-      },
-      "error": null,
-      "seconds": 1.25
-    },
-    {
       "id": "fb-033",
       "prediction": {
         "sentiment": "neutral",
@@ -712,29 +549,7 @@
         "priority": "low"
       },
       "error": null,
-      "seconds": 1.2
-    },
-    {
-      "id": "fb-034",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "technical_issue",
-        "priority": "critical"
-      },
-      "error": null,
-      "seconds": 1.25
-    },
-    {
-      "id": "fb-035",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "data_quality",
-        "priority": "high"
-      },
-      "error": null,
-      "seconds": 1.25
+      "seconds": 1.21
     },
     {
       "id": "fb-036",
@@ -756,18 +571,7 @@
         "priority": "low"
       },
       "error": null,
-      "seconds": 1.28
-    },
-    {
-      "id": "fb-038",
-      "prediction": {
-        "sentiment": "positive",
-        "intent": "give_praise",
-        "category": "usability",
-        "priority": "low"
-      },
-      "error": null,
-      "seconds": 1.28
+      "seconds": 1.26
     },
     {
       "id": "fb-039",
@@ -778,7 +582,7 @@
         "priority": "high"
       },
       "error": null,
-      "seconds": 1.29
+      "seconds": 1.25
     },
     {
       "id": "fb-040",
@@ -800,40 +604,7 @@
         "priority": "medium"
       },
       "error": null,
-      "seconds": 1.24
-    },
-    {
-      "id": "fb-042",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "complain",
-        "category": "general",
-        "priority": "medium"
-      },
-      "error": null,
       "seconds": 1.23
-    },
-    {
-      "id": "fb-043",
-      "prediction": {
-        "sentiment": "neutral",
-        "intent": "ask_question",
-        "category": "general",
-        "priority": "low"
-      },
-      "error": null,
-      "seconds": 1.2
-    },
-    {
-      "id": "fb-044",
-      "prediction": {
-        "sentiment": "neutral",
-        "intent": "ask_question",
-        "category": "general",
-        "priority": "low"
-      },
-      "error": null,
-      "seconds": 1.21
     },
     {
       "id": "fb-045",
@@ -844,18 +615,7 @@
         "priority": "low"
       },
       "error": null,
-      "seconds": 1.2
-    },
-    {
-      "id": "fb-046",
-      "prediction": {
-        "sentiment": "neutral",
-        "intent": "ask_question",
-        "category": "general",
-        "priority": "low"
-      },
-      "error": null,
-      "seconds": 1.22
+      "seconds": 1.21
     },
     {
       "id": "fb-047",
@@ -866,7 +626,7 @@
         "priority": "low"
       },
       "error": null,
-      "seconds": 1.15
+      "seconds": 1.16
     },
     {
       "id": "fb-048",
@@ -877,18 +637,7 @@
         "priority": "critical"
       },
       "error": null,
-      "seconds": 1.33
-    },
-    {
-      "id": "fb-049",
-      "prediction": {
-        "sentiment": "mixed",
-        "intent": "report_issue",
-        "category": "account_access",
-        "priority": "medium"
-      },
-      "error": null,
-      "seconds": 1.28
+      "seconds": 1.32
     },
     {
       "id": "fb-050",
@@ -899,73 +648,7 @@
         "priority": "medium"
       },
       "error": null,
-      "seconds": 1.3
-    },
-    {
-      "id": "fb-051",
-      "prediction": {
-        "sentiment": "mixed",
-        "intent": "complain",
-        "category": "general",
-        "priority": "medium"
-      },
-      "error": null,
-      "seconds": 1.29
-    },
-    {
-      "id": "fb-052",
-      "prediction": {
-        "sentiment": "mixed",
-        "intent": "request_feature",
-        "category": "feature_request",
-        "priority": "medium"
-      },
-      "error": null,
-      "seconds": 1.25
-    },
-    {
-      "id": "fb-053",
-      "prediction": {
-        "sentiment": "mixed",
-        "intent": "report_issue",
-        "category": "usability",
-        "priority": "medium"
-      },
-      "error": null,
-      "seconds": 1.24
-    },
-    {
-      "id": "fb-054",
-      "prediction": {
-        "sentiment": "positive",
-        "intent": "report_issue",
-        "category": "technical_issue",
-        "priority": "medium"
-      },
-      "error": null,
-      "seconds": 1.25
-    },
-    {
-      "id": "fb-055",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "data_quality",
-        "priority": "critical"
-      },
-      "error": null,
-      "seconds": 1.29
-    },
-    {
-      "id": "fb-056",
-      "prediction": {
-        "sentiment": "negative",
-        "intent": "report_issue",
-        "category": "data_quality",
-        "priority": "high"
-      },
-      "error": null,
-      "seconds": 1.23
+      "seconds": 1.33
     },
     {
       "id": "fb-057",
@@ -976,18 +659,7 @@
         "priority": "low"
       },
       "error": null,
-      "seconds": 1.25
-    },
-    {
-      "id": "fb-058",
-      "prediction": {
-        "sentiment": "neutral",
-        "intent": "request_feature",
-        "category": "feature_request",
-        "priority": "medium"
-      },
-      "error": null,
-      "seconds": 1.25
+      "seconds": 1.24
     },
     {
       "id": "fb-059",
@@ -998,7 +670,7 @@
         "priority": "high"
       },
       "error": null,
-      "seconds": 1.26
+      "seconds": 1.24
     },
     {
       "id": "fb-060",

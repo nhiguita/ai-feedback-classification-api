@@ -29,14 +29,26 @@ curl -X POST http://localhost:8000/api/v1/feedback/analyze \
 ```
 
 ## Evaluation
-A labeled set of 60 fictitious comments lives in `evaluation/data/feedback_labeled.jsonl`.
-Run it against the real model (requires Ollama):
+63 fictitious, hand-labeled comments in `evaluation/data/feedback_labeled.jsonl`, split into
+`dev` (30, used to tune the prompt) and `test` (33, held out; includes prompt-injection cases).
+Run against the real model (requires Ollama):
 ```bash
-.venv/bin/python -m evaluation.run_eval
+.venv/bin/python -m evaluation.run_eval --split test
 ```
-Baseline with `qwen3:4b` (GPU, median latency 1.2s): sentiment 88.3%, intent 90.0%,
-category 76.7%, priority 68.3%, all four fields correct 41.7%.
-Full report with per-label scores, confusion matrices and errors: [`docs/EVALUATION.md`](docs/EVALUATION.md).
+
+Results on the **test** split with `qwen3:4b` (GPU, median latency ~1.4s):
+
+| Field | Prompt v1 | Prompt v2 |
+| --- | --- | --- |
+| sentiment | 81.8% | 90.9% |
+| intent | 87.9% | 90.9% |
+| category | 78.8% | 72.7% |
+| priority | 63.6% | 69.7% |
+| all four fields | 42.4% | 45.5% |
+| injection attempts that raised priority | 3/3 | 0/3 |
+
+Per-label scores, confusion matrices and errors: [`docs/evaluation/`](docs/evaluation/).
+Error analysis and design decisions: [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ## Tests
 Tests mock the LLM and never call Ollama.
