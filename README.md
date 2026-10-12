@@ -28,6 +28,16 @@ curl -X POST http://localhost:8000/api/v1/feedback/analyze \
   -d '{"text": "The application crashes when I upload reports."}'
 ```
 
+## Evaluation
+A labeled set of 60 fictitious comments lives in `evaluation/data/feedback_labeled.jsonl`.
+Run it against the real model (requires Ollama):
+```bash
+.venv/bin/python -m evaluation.run_eval
+```
+Baseline with `qwen3:4b` (GPU, median latency 1.2s): sentiment 88.3%, intent 90.0%,
+category 76.7%, priority 68.3%, all four fields correct 41.7%.
+Full report with per-label scores, confusion matrices and errors: [`docs/EVALUATION.md`](docs/EVALUATION.md).
+
 ## Tests
 Tests mock the LLM and never call Ollama.
 ```bash
