@@ -1,18 +1,13 @@
 from fastapi import APIRouter, HTTPException, status
-from pydantic import BaseModel
 
+from app.schemas import FeedbackClassification, FeedbackRequest
 from app.services import classifier
 
 router = APIRouter(prefix="/feedback", tags=["feedback"])
 
 
-class FeedbackRequest(BaseModel):
-    # Minimal request body; full input/output schemas are defined in the next step.
-    text: str
-
-
-@router.post("/analyze")
-def analyze_feedback(request: FeedbackRequest) -> dict:
+@router.post("/analyze", response_model=FeedbackClassification)
+def analyze_feedback(request: FeedbackRequest) -> FeedbackClassification:
     try:
         return classifier.classify_feedback(request.text)
     except classifier.ClassifierNotImplementedError as exc:
