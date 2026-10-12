@@ -1,0 +1,1501 @@
+{
+  "model": "qwen3:4b",
+  "variant": "v3",
+  "dataset": "holdout",
+  "metrics": {
+    "n": 51,
+    "errors": 0,
+    "exact_match": 0.43137254901960786,
+    "fields": {
+      "sentiment": {
+        "accuracy": 0.7843137254901961,
+        "macro_f1": 0.7685185185185186,
+        "per_label": [
+          {
+            "label": "positive",
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1": 0.888888888888889,
+            "support": 4
+          },
+          {
+            "label": "neutral",
+            "precision": 0.7857142857142857,
+            "recall": 0.5789473684210527,
+            "f1": 0.6666666666666667,
+            "support": 19
+          },
+          {
+            "label": "negative",
+            "precision": 0.7666666666666667,
+            "recall": 0.9583333333333334,
+            "f1": 0.8518518518518519,
+            "support": 24
+          },
+          {
+            "label": "mixed",
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1": 0.6666666666666666,
+            "support": 4
+          }
+        ],
+        "confusion": {
+          "positive": {
+            "positive": 4,
+            "neutral": 0,
+            "negative": 0,
+            "mixed": 0
+          },
+          "neutral": {
+            "positive": 1,
+            "neutral": 11,
+            "negative": 7,
+            "mixed": 0
+          },
+          "negative": {
+            "positive": 0,
+            "neutral": 1,
+            "negative": 23,
+            "mixed": 0
+          },
+          "mixed": {
+            "positive": 0,
+            "neutral": 2,
+            "negative": 0,
+            "mixed": 2
+          }
+        }
+      },
+      "intent": {
+        "accuracy": 0.9019607843137255,
+        "macro_f1": 0.8110907610907611,
+        "per_label": [
+          {
+            "label": "report_issue",
+            "precision": 0.9117647058823529,
+            "recall": 1.0,
+            "f1": 0.9538461538461539,
+            "support": 31
+          },
+          {
+            "label": "request_feature",
+            "precision": 1.0,
+            "recall": 0.75,
+            "f1": 0.8571428571428571,
+            "support": 4
+          },
+          {
+            "label": "ask_question",
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1": 0.888888888888889,
+            "support": 4
+          },
+          {
+            "label": "give_praise",
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 4
+          },
+          {
+            "label": "complain",
+            "precision": 0.75,
+            "recall": 0.6,
+            "f1": 0.6666666666666665,
+            "support": 5
+          },
+          {
+            "label": "other",
+            "precision": 1.0,
+            "recall": 0.3333333333333333,
+            "f1": 0.5,
+            "support": 3
+          }
+        ],
+        "confusion": {
+          "report_issue": {
+            "report_issue": 31,
+            "request_feature": 0,
+            "ask_question": 0,
+            "give_praise": 0,
+            "complain": 0,
+            "other": 0
+          },
+          "request_feature": {
+            "report_issue": 1,
+            "request_feature": 3,
+            "ask_question": 0,
+            "give_praise": 0,
+            "complain": 0,
+            "other": 0
+          },
+          "ask_question": {
+            "report_issue": 0,
+            "request_feature": 0,
+            "ask_question": 4,
+            "give_praise": 0,
+            "complain": 0,
+            "other": 0
+          },
+          "give_praise": {
+            "report_issue": 0,
+            "request_feature": 0,
+            "ask_question": 0,
+            "give_praise": 4,
+            "complain": 0,
+            "other": 0
+          },
+          "complain": {
+            "report_issue": 2,
+            "request_feature": 0,
+            "ask_question": 0,
+            "give_praise": 0,
+            "complain": 3,
+            "other": 0
+          },
+          "other": {
+            "report_issue": 0,
+            "request_feature": 0,
+            "ask_question": 1,
+            "give_praise": 0,
+            "complain": 1,
+            "other": 1
+          }
+        }
+      },
+      "category": {
+        "accuracy": 0.6666666666666666,
+        "macro_f1": 0.6823062558356676,
+        "per_label": [
+          {
+            "label": "technical_issue",
+            "precision": 0.6666666666666666,
+            "recall": 0.7692307692307693,
+            "f1": 0.7142857142857142,
+            "support": 13
+          },
+          {
+            "label": "performance",
+            "precision": 1.0,
+            "recall": 0.8,
+            "f1": 0.888888888888889,
+            "support": 5
+          },
+          {
+            "label": "usability",
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1": 0.6666666666666666,
+            "support": 4
+          },
+          {
+            "label": "feature_request",
+            "precision": 0.75,
+            "recall": 0.75,
+            "f1": 0.75,
+            "support": 4
+          },
+          {
+            "label": "account_access",
+            "precision": 0.8,
+            "recall": 0.3333333333333333,
+            "f1": 0.47058823529411764,
+            "support": 12
+          },
+          {
+            "label": "data_quality",
+            "precision": 0.4,
+            "recall": 1.0,
+            "f1": 0.5714285714285715,
+            "support": 4
+          },
+          {
+            "label": "general",
+            "precision": 1.0,
+            "recall": 0.5555555555555556,
+            "f1": 0.7142857142857143,
+            "support": 9
+          }
+        ],
+        "confusion": {
+          "technical_issue": {
+            "technical_issue": 10,
+            "performance": 0,
+            "usability": 0,
+            "feature_request": 0,
+            "account_access": 0,
+            "data_quality": 3,
+            "general": 0
+          },
+          "performance": {
+            "technical_issue": 1,
+            "performance": 4,
+            "usability": 0,
+            "feature_request": 0,
+            "account_access": 0,
+            "data_quality": 0,
+            "general": 0
+          },
+          "usability": {
+            "technical_issue": 0,
+            "performance": 0,
+            "usability": 4,
+            "feature_request": 0,
+            "account_access": 0,
+            "data_quality": 0,
+            "general": 0
+          },
+          "feature_request": {
+            "technical_issue": 0,
+            "performance": 0,
+            "usability": 1,
+            "feature_request": 3,
+            "account_access": 0,
+            "data_quality": 0,
+            "general": 0
+          },
+          "account_access": {
+            "technical_issue": 4,
+            "performance": 0,
+            "usability": 1,
+            "feature_request": 1,
+            "account_access": 4,
+            "data_quality": 2,
+            "general": 0
+          },
+          "data_quality": {
+            "technical_issue": 0,
+            "performance": 0,
+            "usability": 0,
+            "feature_request": 0,
+            "account_access": 0,
+            "data_quality": 4,
+            "general": 0
+          },
+          "general": {
+            "technical_issue": 0,
+            "performance": 0,
+            "usability": 2,
+            "feature_request": 0,
+            "account_access": 1,
+            "data_quality": 1,
+            "general": 5
+          }
+        }
+      },
+      "priority": {
+        "accuracy": 0.8627450980392157,
+        "macro_f1": 0.8604301043159739,
+        "per_label": [
+          {
+            "label": "low",
+            "precision": 1.0,
+            "recall": 0.8823529411764706,
+            "f1": 0.9375,
+            "support": 17
+          },
+          {
+            "label": "medium",
+            "precision": 0.8333333333333334,
+            "recall": 0.7142857142857143,
+            "f1": 0.7692307692307692,
+            "support": 14
+          },
+          {
+            "label": "high",
+            "precision": 0.6428571428571429,
+            "recall": 1.0,
+            "f1": 0.782608695652174,
+            "support": 9
+          },
+          {
+            "label": "critical",
+            "precision": 1.0,
+            "recall": 0.9090909090909091,
+            "f1": 0.9523809523809523,
+            "support": 11
+          }
+        ],
+        "confusion": {
+          "low": {
+            "low": 15,
+            "medium": 2,
+            "high": 0,
+            "critical": 0
+          },
+          "medium": {
+            "low": 0,
+            "medium": 10,
+            "high": 4,
+            "critical": 0
+          },
+          "high": {
+            "low": 0,
+            "medium": 0,
+            "high": 9,
+            "critical": 0
+          },
+          "critical": {
+            "low": 0,
+            "medium": 0,
+            "high": 1,
+            "critical": 10
+          }
+        }
+      }
+    },
+    "latency": {
+      "median_seconds": 4.12,
+      "max_seconds": 6.28,
+      "total_seconds": 208.9
+    }
+  },
+  "predictions": [
+    {
+      "id": "ho-001",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "critical"
+      },
+      "facts": {
+        "service_down": true,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "service_down"
+      ],
+      "error": null,
+      "seconds": 4.52
+    },
+    {
+      "id": "ho-002",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "data_quality",
+        "priority": "critical"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": true,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "data_loss"
+      ],
+      "error": null,
+      "seconds": 3.66
+    },
+    {
+      "id": "ho-003",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "critical"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": true,
+        "blocked": false,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "security_exposure"
+      ],
+      "error": null,
+      "seconds": 3.62
+    },
+    {
+      "id": "ho-004",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "data_quality",
+        "priority": "critical"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": true,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "security_exposure"
+      ],
+      "error": null,
+      "seconds": 3.64
+    },
+    {
+      "id": "ho-005",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "data_quality",
+        "priority": "critical"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": true,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "data_loss"
+      ],
+      "error": null,
+      "seconds": 3.59
+    },
+    {
+      "id": "ho-006",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "critical"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": true,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "data_loss"
+      ],
+      "error": null,
+      "seconds": 4.06
+    },
+    {
+      "id": "ho-007",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "account_access",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 3.8
+    },
+    {
+      "id": "ho-008",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "data_quality",
+        "priority": "critical"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": true,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "data_loss"
+      ],
+      "error": null,
+      "seconds": 3.91
+    },
+    {
+      "id": "ho-009",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "critical"
+      },
+      "facts": {
+        "service_down": true,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "service_down"
+      ],
+      "error": null,
+      "seconds": 3.82
+    },
+    {
+      "id": "ho-010",
+      "prediction": {
+        "sentiment": "mixed",
+        "intent": "report_issue",
+        "category": "data_quality",
+        "priority": "critical"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": true,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "security_exposure"
+      ],
+      "error": null,
+      "seconds": 3.77
+    },
+    {
+      "id": "ho-011",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "data_quality",
+        "priority": "critical"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": true,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "data_loss"
+      ],
+      "error": null,
+      "seconds": 3.77
+    },
+    {
+      "id": "ho-012",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 3.81
+    },
+    {
+      "id": "ho-013",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 3.76
+    },
+    {
+      "id": "ho-014",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 3.79
+    },
+    {
+      "id": "ho-015",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "account_access",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 3.81
+    },
+    {
+      "id": "ho-016",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 3.84
+    },
+    {
+      "id": "ho-017",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 5.2
+    },
+    {
+      "id": "ho-018",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 4.24
+    },
+    {
+      "id": "ho-019",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "performance",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 4.14
+    },
+    {
+      "id": "ho-020",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "account_access",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 4.14
+    },
+    {
+      "id": "ho-021",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 4.09
+    },
+    {
+      "id": "ho-022",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "performance",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "functional_problem"
+      ],
+      "error": null,
+      "seconds": 4.07
+    },
+    {
+      "id": "ho-023",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 4.12
+    },
+    {
+      "id": "ho-024",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "functional_problem"
+      ],
+      "error": null,
+      "seconds": 4.1
+    },
+    {
+      "id": "ho-025",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "data_quality",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "functional_problem"
+      ],
+      "error": null,
+      "seconds": 4.13
+    },
+    {
+      "id": "ho-026",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "complain",
+        "category": "general",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": true,
+        "business_need": true
+      },
+      "priority_reasons": [
+        "price_or_support_complaint",
+        "business_need"
+      ],
+      "error": null,
+      "seconds": 4.14
+    },
+    {
+      "id": "ho-027",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "complain",
+        "category": "general",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": true,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "price_or_support_complaint"
+      ],
+      "error": null,
+      "seconds": 4.24
+    },
+    {
+      "id": "ho-028",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "usability",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": true
+      },
+      "priority_reasons": [
+        "business_need"
+      ],
+      "error": null,
+      "seconds": 4.15
+    },
+    {
+      "id": "ho-029",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "request_feature",
+        "category": "feature_request",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": true
+      },
+      "priority_reasons": [
+        "business_need"
+      ],
+      "error": null,
+      "seconds": 4.12
+    },
+    {
+      "id": "ho-030",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "performance",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "functional_problem"
+      ],
+      "error": null,
+      "seconds": 4.1
+    },
+    {
+      "id": "ho-031",
+      "prediction": {
+        "sentiment": "mixed",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 4.18
+    },
+    {
+      "id": "ho-032",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "data_quality",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "functional_problem"
+      ],
+      "error": null,
+      "seconds": 4.14
+    },
+    {
+      "id": "ho-033",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "data_quality",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "functional_problem"
+      ],
+      "error": null,
+      "seconds": 4.1
+    },
+    {
+      "id": "ho-034",
+      "prediction": {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "technical_issue",
+        "priority": "high"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": true,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "blocked"
+      ],
+      "error": null,
+      "seconds": 4.13
+    },
+    {
+      "id": "ho-035",
+      "prediction": {
+        "sentiment": "positive",
+        "intent": "give_praise",
+        "category": "usability",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.16
+    },
+    {
+      "id": "ho-036",
+      "prediction": {
+        "sentiment": "positive",
+        "intent": "give_praise",
+        "category": "general",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.12
+    },
+    {
+      "id": "ho-037",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "ask_question",
+        "category": "account_access",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.12
+    },
+    {
+      "id": "ho-038",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "ask_question",
+        "category": "data_quality",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.13
+    },
+    {
+      "id": "ho-039",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "ask_question",
+        "category": "general",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.06
+    },
+    {
+      "id": "ho-040",
+      "prediction": {
+        "sentiment": "positive",
+        "intent": "give_praise",
+        "category": "usability",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.19
+    },
+    {
+      "id": "ho-041",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "complain",
+        "category": "usability",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.15
+    },
+    {
+      "id": "ho-042",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "report_issue",
+        "category": "usability",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "functional_problem"
+      ],
+      "error": null,
+      "seconds": 4.14
+    },
+    {
+      "id": "ho-043",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "request_feature",
+        "category": "feature_request",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.13
+    },
+    {
+      "id": "ho-044",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "complain",
+        "category": "usability",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.18
+    },
+    {
+      "id": "ho-045",
+      "prediction": {
+        "sentiment": "positive",
+        "intent": "request_feature",
+        "category": "feature_request",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.14
+    },
+    {
+      "id": "ho-046",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "other",
+        "category": "general",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.08
+    },
+    {
+      "id": "ho-047",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "report_issue",
+        "category": "performance",
+        "priority": "medium"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": true,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [
+        "functional_problem"
+      ],
+      "error": null,
+      "seconds": 4.09
+    },
+    {
+      "id": "ho-048",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "ask_question",
+        "category": "feature_request",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.12
+    },
+    {
+      "id": "ho-049",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "ask_question",
+        "category": "account_access",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.13
+    },
+    {
+      "id": "ho-050",
+      "prediction": {
+        "sentiment": "positive",
+        "intent": "give_praise",
+        "category": "usability",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 6.28
+    },
+    {
+      "id": "ho-051",
+      "prediction": {
+        "sentiment": "neutral",
+        "intent": "report_issue",
+        "category": "usability",
+        "priority": "low"
+      },
+      "facts": {
+        "service_down": false,
+        "data_loss": false,
+        "security_exposure": false,
+        "blocked": false,
+        "functional_problem": false,
+        "price_or_support_complaint": false,
+        "business_need": false
+      },
+      "priority_reasons": [],
+      "error": null,
+      "seconds": 4.0
+    }
+  ]
+}
