@@ -127,7 +127,6 @@ v1 and v2 are frozen in `evaluation/baselines/` so they can be re-run.
 v3 makes priority the most reliable field and catches the costly cases (security exposure,
 data loss) that v1 and v2 rated as high or medium. Per-label scores, confusion matrices and
 every error (with the facts that triggered each priority): [`docs/evaluation/`](docs/evaluation/).
-Development log, error analysis and design decisions: [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ## Limitations
 
