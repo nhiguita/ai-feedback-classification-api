@@ -1,0 +1,6 @@
+{
+    "sentiment": "negative",
+    "intent": "report_issue",
+    "category": "data_quality",
+    "priority": "critical"
+}

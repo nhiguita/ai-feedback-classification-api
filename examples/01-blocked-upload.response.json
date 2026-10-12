@@ -1,0 +1,6 @@
+{
+    "sentiment": "negative",
+    "intent": "report_issue",
+    "category": "technical_issue",
+    "priority": "high"
+}

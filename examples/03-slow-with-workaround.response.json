@@ -1,0 +1,6 @@
+{
+    "sentiment": "neutral",
+    "intent": "report_issue",
+    "category": "performance",
+    "priority": "medium"
+}

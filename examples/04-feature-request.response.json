@@ -1,0 +1,6 @@
+{
+    "sentiment": "neutral",
+    "intent": "request_feature",
+    "category": "feature_request",
+    "priority": "medium"
+}
