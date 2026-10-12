@@ -1,11 +1,22 @@
-from unittest.mock import patch
+import json
+from unittest.mock import MagicMock, patch
 
 import pytest
 
 from app.llm.errors import LLMTimeoutError
 from app.schemas import Category, FeedbackClassification, Intent, Priority, Sentiment
 from evaluation.metrics import accuracy, confusion_matrix, exact_match, macro_f1, per_label_scores
-from evaluation.run_eval import DATASETS, LABELS, compute_metrics, load_dataset, render_report, run_predictions
+from evaluation.run_eval import (
+    DATASETS,
+    LABELS,
+    VARIANTS,
+    baseline_predictor,
+    compute_metrics,
+    current_predictor,
+    load_dataset,
+    render_report,
+    run_predictions,
+)
 
 GOLD = ["a", "a", "b", "c"]
 PRED = ["a", "b", "b", "b"]
@@ -67,8 +78,8 @@ def test_dataset_does_not_reuse_few_shot_examples(name):
 def test_run_predictions_and_report_with_mocked_classifier():
     rows = load_dataset("dev")[:2]
     correct = FeedbackClassification(**{k: rows[0][k] for k in ("sentiment", "intent", "category", "priority")})
-    with patch("evaluation.run_eval.classify_feedback", side_effect=[correct, LLMTimeoutError("slow")]):
-        predictions = run_predictions(rows)
+    predict = MagicMock(side_effect=[{"prediction": correct.model_dump(mode="json")}, LLMTimeoutError("slow")])
+    predictions = run_predictions(rows, predict)
 
     assert predictions[0]["error"] is None
     assert predictions[1]["prediction"] is None and "LLMTimeoutError" in predictions[1]["error"]
@@ -77,7 +88,7 @@ def test_run_predictions_and_report_with_mocked_classifier():
     assert metrics["errors"] == 1
     assert metrics["exact_match"] == 0.5
 
-    report = render_report(metrics, rows, predictions, "qwen3:4b", "dev")
+    report = render_report(metrics, rows, predictions, "qwen3:4b", "dev", "v3")
     assert "| sentiment | 50.0% |" in report
     assert rows[1]["id"] in report  # Failed item is listed under misclassified.
 
@@ -87,3 +98,37 @@ def test_labels_match_schema_enums():
     assert LABELS["intent"] == [i.value for i in Intent]
     assert LABELS["category"] == [c.value for c in Category]
     assert LABELS["priority"] == [p.value for p in Priority]
+
+
+def test_variants_include_frozen_baselines_and_current():
+    assert set(VARIANTS) == {"v1", "v2", "v3"}
+
+
+def test_baseline_predictor_uses_frozen_prompt_and_llm_priority():
+    llm = MagicMock()
+    llm.chat_json.return_value = json.dumps(
+        {"sentiment": "neutral", "intent": "ask_question", "category": "general", "priority": "low"}
+    )
+    build_messages = MagicMock(return_value=[{"role": "user", "content": "x"}])
+    with patch("evaluation.run_eval.get_llm_client", return_value=llm):
+        output = baseline_predictor(build_messages)("How do I log in?")
+    build_messages.assert_called_once_with("How do I log in?")
+    assert output["prediction"]["priority"] == "low"
+
+
+def test_current_predictor_keeps_facts_and_reasons():
+    from app.priority.facts import PriorityFacts
+
+    analysis = {
+        "sentiment": "negative",
+        "intent": "report_issue",
+        "category": "data_quality",
+        "facts": {name: name == "data_loss" for name in PriorityFacts.model_fields},
+    }
+    llm = MagicMock()
+    llm.chat_json.return_value = json.dumps(analysis)
+    with patch("app.services.classifier.get_llm_client", return_value=llm):
+        output = current_predictor("All my records are gone.")
+    assert output["prediction"]["priority"] == "critical"
+    assert output["priority_reasons"] == ["data_loss"]
+    assert output["facts"]["data_loss"] is True

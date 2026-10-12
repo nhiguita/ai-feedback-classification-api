@@ -2,7 +2,11 @@
 
 Usage:
     .venv/bin/python -m evaluation.run_eval --dataset dev
-    .venv/bin/python -m evaluation.run_eval --dataset holdout
+    .venv/bin/python -m evaluation.run_eval --dataset holdout --variant v1
+
+Variants:
+    v1, v2  Frozen prompts (evaluation/baselines/) where the LLM chooses the priority.
+    v3      Current app: the LLM extracts facts and app/priority/rules.py computes the priority.
 
 Datasets:
     dev  All comments used while developing prompts v1/v2 (including the former "test" split,
@@ -11,7 +15,7 @@ Datasets:
              written. Report-only: never use its results to adjust prompts or rules.
 
 Requires Ollama running with the configured model (see .env.example).
-Writes evaluation/results/<prompt version>-<dataset>.json and docs/evaluation/<prompt version>-<dataset>.md.
+Writes evaluation/results/<variant>-<dataset>.json and docs/evaluation/<variant>-<dataset>.md.
 """
 
 import argparse
@@ -21,11 +25,16 @@ import time
 from datetime import date
 from pathlib import Path
 
+from collections.abc import Callable
+
 from app.config import get_settings
 from app.llm.errors import LLMError
+from app.llm.factory import get_llm_client
+from app.priority.rules import decide_priority
 from app.prompts import PROMPT_VERSION
-from app.schemas import Category, Intent, Priority, Sentiment
-from app.services.classifier import classify_feedback
+from app.schemas import Category, FeedbackClassification, Intent, Priority, Sentiment
+from app.services.classifier import analyze_feedback, request_validated
+from evaluation.baselines import prompt_v1, prompt_v2
 from evaluation.metrics import FIELDS, accuracy, confusion_matrix, exact_match, macro_f1, per_label_scores
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -42,22 +51,51 @@ LABELS = {
 }
 
 
+Predictor = Callable[[str], dict]
+
+
+def baseline_predictor(build_messages: Callable[[str], list[dict[str, str]]]) -> Predictor:
+    def predict(text: str) -> dict:
+        result = request_validated(get_llm_client(), build_messages(text), FeedbackClassification)
+        return {"prediction": result.model_dump(mode="json")}
+
+    return predict
+
+
+def current_predictor(text: str) -> dict:
+    # Same steps as classify_feedback, keeping the facts so errors can be traced to a fact or a rule.
+    analysis = analyze_feedback(text)
+    decision = decide_priority(analysis.facts)
+    labels = analysis.model_dump(mode="json", exclude={"facts"})
+    return {
+        "prediction": labels | {"priority": decision.priority.value},
+        "facts": analysis.facts.model_dump(),
+        "priority_reasons": list(decision.reasons),
+    }
+
+
+VARIANTS: dict[str, Predictor] = {
+    "v1": baseline_predictor(prompt_v1.build_messages),
+    "v2": baseline_predictor(prompt_v2.build_messages),
+    PROMPT_VERSION: current_predictor,
+}
+
+
 def load_dataset(name: str) -> list[dict[str, str]]:
     with DATASETS[name].open(encoding="utf-8") as f:
         return [json.loads(line) for line in f if line.strip()]
 
 
-def run_predictions(rows: list[dict[str, str]]) -> list[dict]:
+def run_predictions(rows: list[dict[str, str]], predict: Predictor) -> list[dict]:
     predictions = []
     for i, row in enumerate(rows, start=1):
         start = time.perf_counter()
         try:
-            pred = classify_feedback(row["text"]).model_dump(mode="json")
-            error = None
+            output, error = predict(row["text"]), None
         except LLMError as exc:
-            pred, error = None, f"{type(exc).__name__}: {exc}"
+            output, error = {"prediction": None}, f"{type(exc).__name__}: {exc}"
         elapsed = time.perf_counter() - start
-        predictions.append({"id": row["id"], "prediction": pred, "error": error, "seconds": round(elapsed, 2)})
+        predictions.append({"id": row["id"], **output, "error": error, "seconds": round(elapsed, 2)})
         status = "ERROR" if error else "ok"
         print(f"[{i}/{len(rows)}] {row['id']} {status} {elapsed:.1f}s")
     return predictions
@@ -91,9 +129,11 @@ def compute_metrics(rows: list[dict[str, str]], predictions: list[dict]) -> dict
     }
 
 
-def render_report(metrics: dict, rows: list[dict[str, str]], predictions: list[dict], model: str, dataset: str) -> str:
+def render_report(
+    metrics: dict, rows: list[dict[str, str]], predictions: list[dict], model: str, dataset: str, variant: str
+) -> str:
     lines = [
-        f"# Evaluation — prompt {PROMPT_VERSION}, {dataset} dataset",
+        f"# Evaluation — {variant}, {dataset} dataset",
         "",
         f"- Date: {date.today().isoformat()}",
         f"- Model: `{model}` via Ollama (temperature 0, thinking disabled)",
@@ -101,7 +141,7 @@ def render_report(metrics: dict, rows: list[dict[str, str]], predictions: list[d
         f"- LLM errors: {metrics['errors']}",
         f"- Latency: median {metrics['latency']['median_seconds']:.2f}s, max {metrics['latency']['max_seconds']:.2f}s",
         "",
-        f"Reproduce with `.venv/bin/python -m evaluation.run_eval --dataset {dataset}`.",
+        f"Reproduce with `.venv/bin/python -m evaluation.run_eval --dataset {dataset} --variant {variant}`.",
         "",
         "## Summary",
         "",
@@ -126,36 +166,44 @@ def render_report(metrics: dict, rows: list[dict[str, str]], predictions: list[d
             cells = [str(m["confusion"][gold_label][p]) for p in labels]
             lines.append(f"| **{gold_label}** | " + " | ".join(cells) + " |")
 
-    lines += ["", "## Misclassified items", "", "| ID | Text | Field | Expected | Predicted |", "| --- | --- | --- | --- | --- |"]
+    lines += [
+        "",
+        "## Misclassified items",
+        "",
+        "| ID | Text | Field | Expected | Predicted | Priority facts |",
+        "| --- | --- | --- | --- | --- | --- |",
+    ]
     for row, pred in zip(rows, predictions):
         p = pred["prediction"]
         if p is None:
-            lines.append(f"| {row['id']} | {row['text']} | all | — | {pred['error']} |")
+            lines.append(f"| {row['id']} | {row['text']} | all | — | {pred['error']} | |")
             continue
         for field in FIELDS:
             if p[field] != row[field]:
-                lines.append(f"| {row['id']} | {row['text']} | {field} | {row[field]} | {p[field]} |")
+                reasons = ", ".join(pred.get("priority_reasons", [])) or "—" if field == "priority" else ""
+                lines.append(f"| {row['id']} | {row['text']} | {field} | {row[field]} | {p[field]} | {reasons} |")
     return "\n".join(lines) + "\n"
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--dataset", choices=DATASETS, required=True, help="Dataset to evaluate.")
+    parser.add_argument("--variant", choices=VARIANTS, default=PROMPT_VERSION, help="Classifier variant.")
     parser.add_argument("--limit", type=int, help="Evaluate only the first N items.")
     args = parser.parse_args()
 
     rows = load_dataset(args.dataset)[: args.limit]
-    predictions = run_predictions(rows)
+    predictions = run_predictions(rows, VARIANTS[args.variant])
     metrics = compute_metrics(rows, predictions)
     model = get_settings().ollama_model
 
-    name = f"{PROMPT_VERSION}-{args.dataset}"
+    name = f"{args.variant}-{args.dataset}"
     results_path, report_path = RESULTS_DIR / f"{name}.json", REPORTS_DIR / f"{name}.md"
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    payload = {"model": model, "prompt_version": PROMPT_VERSION, "dataset": args.dataset, "metrics": metrics}
+    payload = {"model": model, "variant": args.variant, "dataset": args.dataset, "metrics": metrics}
     results_path.write_text(json.dumps({**payload, "predictions": predictions}, indent=2), encoding="utf-8")
-    report_path.write_text(render_report(metrics, rows, predictions, model, args.dataset), encoding="utf-8")
+    report_path.write_text(render_report(metrics, rows, predictions, model, args.dataset, args.variant), encoding="utf-8")
 
     print(f"\nExact match: {metrics['exact_match']:.1%}")
     for field in FIELDS:
